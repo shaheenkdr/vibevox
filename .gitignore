@@ -1,0 +1,14 @@
+.superpowers/
+.claude/
+docs/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.venv/
+venv/
+*.egg
