@@ -40,8 +40,11 @@ def validate_media_file(path: str) -> dict:
     if result.returncode != 0:
         raise ValidationError(f"Not a valid media file: {path}")
 
-    info = json.loads(result.stdout)
-    duration = float(info["format"].get("duration", 0))
+    try:
+        info = json.loads(result.stdout)
+        duration = float(info["format"].get("duration", 0))
+    except (json.JSONDecodeError, KeyError) as e:
+        raise ValidationError(f"Not a valid media file: {path}") from e
 
     if duration > MAX_DURATION_SECONDS:
         minutes = duration / 60

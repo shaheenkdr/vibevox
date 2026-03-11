@@ -23,7 +23,13 @@ def _get_audio_info(path: str) -> dict:
         text=True,
         timeout=30,
     )
-    info = json.loads(result.stdout)
+    if result.returncode != 0:
+        # ffprobe failed — treat as "needs conversion" so ffmpeg handles it
+        return {"sample_rate": 0, "channels": 0}
+    try:
+        info = json.loads(result.stdout)
+    except json.JSONDecodeError:
+        return {"sample_rate": 0, "channels": 0}
     streams = info.get("streams", [])
     if not streams:
         return {"sample_rate": 0, "channels": 0}

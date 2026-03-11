@@ -23,6 +23,10 @@ dependencies = [
 [project.scripts]
 vibevox = "vibevox.cli.main:app"
 
+[tool.hatch.metadata]
+allow-direct-references = true
+core-metadata-version = "2.1"
+
 [tool.hatch.build.targets.wheel]
 packages = ["vibevox"]
 

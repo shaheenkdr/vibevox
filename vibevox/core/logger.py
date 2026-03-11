@@ -12,3 +12,11 @@ def get_logger(name: str) -> logging.Logger:
         logger.addHandler(handler)
         logger.setLevel(getattr(logging, level, logging.WARNING))
     return logger
+
+
+def configure_logging(level: str) -> None:
+    """Update the log level for all vibevox.* loggers (e.g. when --verbose is set)."""
+    numeric = getattr(logging, level.upper(), logging.WARNING)
+    for name, lgr in logging.root.manager.loggerDict.items():
+        if name.startswith("vibevox") and isinstance(lgr, logging.Logger):
+            lgr.setLevel(numeric)
